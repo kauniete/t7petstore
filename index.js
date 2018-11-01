@@ -4,7 +4,7 @@ const template = document.querySelector("#petTemplate").content;
 
 //1. fetch content
 function getPets() {
-fetch("http://indraja.dk/kea/wordpress/wordpress/wp-json/wp/v2/pets")
+fetch("http://indraja.dk/kea/wordpress/wordpress/wp-json/wp/v2/pets?_embed")
 .then(res => res.json())
 .then(showPets)
 }
@@ -13,9 +13,9 @@ function showPets(petList){
     petList.forEach(showSinglePet)
 }
 function showSinglePet(pet){
-    console.log(pet)
     //make a copy of the template
     const copy = template.cloneNode(true);
+    copy.querySelector("img").src = pet._embedded["wp:featuredmedia"][0].media_details.sizes.thumbnail.source_url;
     copy.querySelector("h1").textContent=pet.title.rendered;
     copy.querySelector(".type").textContent=pet.acf.types_of_pets;
     copy.querySelector(".color").textContent=pet.acf.color;
